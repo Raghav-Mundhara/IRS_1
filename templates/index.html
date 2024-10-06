@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TF-IDF Relevance Ranking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Search for Relevant Documents</h1>
+    <form action="/search" method="post">
+        <label for="query">Enter your search query:</label><br>
+        <input type="text" id="query" name="query" required value="{{ query if query else '' }}"><br><br>
+        <input type="submit" value="Search">
+    </form>
+
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+
+    {% if ranked_docs %}
+        <h2>Search Results for "{{ query }}":</h2>
+        <ol>
+            {% for doc, score in ranked_docs %}
+                <li><strong>{{ doc }}</strong> (Relevance Score: {{ "%.4f" % score }})</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+</body>
+</html>
